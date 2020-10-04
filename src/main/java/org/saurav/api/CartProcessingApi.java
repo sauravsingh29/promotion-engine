@@ -1,5 +1,6 @@
 package org.saurav.api;
 
+import io.swagger.annotations.ApiOperation;
 import org.saurav.exception.CartException;
 import org.saurav.request.ProcessCart;
 import org.saurav.response.ProcessedCart;
@@ -15,15 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/cart")
-public class CartApi {
+public class CartProcessingApi {
 
     private final CartService cartService;
 
-    public CartApi(CartService cartService) {
+    public CartProcessingApi(CartService cartService) {
         this.cartService = cartService;
     }
 
     @PostMapping
+    @ApiOperation(value = "User cart processor", notes = "Process user's cart; apply promotion if any applicable and return total amount.")
     public ResponseEntity<ProcessedCart> processCart(@RequestBody final ProcessCart processCart) throws CartException {
         final ProcessedCart processedCart = cartService.processCart(processCart);
         return ResponseEntity.ok(processedCart);
